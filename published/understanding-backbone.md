@@ -1,4 +1,5 @@
 Step by step from jQuery to Backbone
+又jQuery演化到Backbone
 ====================================
 
 I've seen many struggle when they first meet
@@ -7,6 +8,8 @@ gradually refactor a bit of code from how I used to write JavaScript
 before, into proper Backbone.js code using models, collections, views and
 events. Hopefully this process will give you a firm understanding of the
 core abstractions in Backbone.js.
+在这篇文章里我将使用Backbone.js的models、collections、views和events来逐步重构以前的代码，
+希望通过重构的过程能使能帮助你更深入的理解Backbone.js的核心概念
 
 Let's start with the code we're going to work with throughout this blog
 post:
