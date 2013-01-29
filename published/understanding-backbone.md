@@ -1,5 +1,4 @@
-Step by step from jQuery to Backbone
-又jQuery演化到Backbone
+Step by step from jQuery to Backbone 由jQuery演化到Backbone
 ====================================
 
 I've seen many struggle when they first meet
@@ -8,11 +7,14 @@ gradually refactor a bit of code from how I used to write JavaScript
 before, into proper Backbone.js code using models, collections, views and
 events. Hopefully this process will give you a firm understanding of the
 core abstractions in Backbone.js.
+
 在这篇文章里我将使用Backbone.js的models、collections、views和events来逐步重构以前的代码，
 希望通过重构的过程能使能帮助你更深入的理解Backbone.js的核心概念
 
 Let's start with the code we're going to work with throughout this blog
 post:
+
+好了，让我们开始
 
 ```javascript
 $(document).ready(function() {
@@ -67,7 +69,7 @@ There are three things we want to achieve:
   make the code more reusable and easier to test.
 * We want to break the coupling between the DOM and Ajax.
 
-Separating DOM and Ajax
+Separating DOM and Ajax 分离DOM和Ajax
 -----------------------
 
 We start with splitting Ajax and DOM from each other, and the first step
@@ -179,7 +181,7 @@ to introduce a Statuses "class":
  });
 ```
 
-Creating a view
+Creating a view  创建一个view
 ---------------
 
 Our submit handler now has one dependency, the `statuses` variable, and
@@ -300,6 +302,12 @@ To solve this problem we can use
 [`$.proxy`](http://api.jquery.com/jQuery.proxy/), which creates a
 function where `this` is always the same — the context you specify as
 the second argument.
+
+在Chrome中运行会得到一个error
+
+    Uncaught TypeError: Cannot call method 'add' of undefined
+    
+原因是由于`this`在constructor和`addStatus`中绑定的不是一个对象 
 
 ```diff
  var Statuses = function() {
@@ -536,7 +544,7 @@ the triggering of the event into the `add` method on `Statuses`:
  });
 ```
 
-A view's responsibilities
+A view's responsibilities view的负责的任务
 -------------------------
 
 Looking at `appendStatus` and `clearInput` in `NewStatusView`, we see
@@ -801,7 +809,7 @@ However, adding this functionality for every view is a pain. That's one
 of the reasons to use [Backbone.js views](http://backbonejs.org/#View) —
 reusing functionality across views.
 
-Getting started with views in Backbone
+Getting started with views in Backbone  使用Backbone中的view
 --------------------------------------
 
 With the current state of our code, it's just a couple of lines of
@@ -1042,7 +1050,7 @@ with an HTML element.
  });
 ```
 
-Let's use a model
+Let's use a model 使用model
 -----------------
 
 The next step is introducing models, which are responsible for the
@@ -1118,7 +1126,7 @@ parameter.
  });
 ```
 
-Handling several models
+Handling several models 处理多个model
 -----------------------
 
 Now that we have introduced models, we need a concept for a list of
@@ -1338,7 +1346,7 @@ when `collection` is passed. Therefore we rename `statuses` to
  });
 ```
 
-Evented views
+Evented views 事件驱动的view
 -------------
 
 Now, let's get rid of that nasty `$.proxy` stuff. We can do this by
@@ -1395,7 +1403,7 @@ format `{"event selector": "callback"}`:
  });
 ```
 
-Escape it!
+Escape it! 
 ----------
 
 As our last step we're going to prevent XSS-exploits. Instead of using
@@ -1453,7 +1461,7 @@ engines, you might get this functionality out of the box.
  });
 ```
 
-And we're done!
+And we're done! 全部
 ---------------
 
 This is our final code:
@@ -1516,7 +1524,7 @@ structure of my JavaScript applications considerably, and in my
 experience the end result is often less complex and has fewer lines
 of code than my "regular JavaScript".
 
-Want to learn more?
+Want to learn more? 想学习更多？
 -------------------
 
 By now you should understand far more of Backbone.js than when you did
