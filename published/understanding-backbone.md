@@ -44,12 +44,22 @@ primarily on testing and design patterns — of which he does an amazing
 job — mine is on explaining the core Backbone.js abstractions one step
 at a time.
 
+这里是这个例子的线上演示[Monologue](http://monologue-js.herokuapp.com/). 
+这个例子是由[Brandon Keepers](http://opensoul.org)基于
+[great JavaScript presentation](http://opensoul.org/blog/archives/2012/05/16/the-plight-of-pinocchio/)
+开发。当然，他使用这个例子来展示测试和设计模式，而我则用来展示Backbone.js的核心概念。
+
 Basically, the app lets you to write some text, click on "Post", and see
 what you've written show up in the list while the textarea is prepared
 for new input. Translating this to code, we start by waiting for the DOM
 to load, set a submit listener, and when the form is submitted we send
 the input to the server, append the response to the list of statuses and
 reset the input.
+
+功能上来讲，这个app可以让你写一些文字，然后点击‘POST’，你就会看到你写的东西被显示
+在下面，这时候你又可以输入一些新的文字啦。
+把这些转化成代码，首先，我们等待DOM加载完成，然后监听提交事件，如果点击提交就把
+用户输入的内容提交到服务器，并把服务器返回的信息附加下面的状态列表，最后情况输入框。
 
 But, what's the problem? This code does a lot of stuff at the same time.
 It listens for page events, user events, network events, it does network
@@ -59,7 +69,14 @@ year ago. Throughout this blog post I will gradually work my way to code
 that follows the single responsibility principle, and which is far
 easier to test, maintain, reuse and extend.
 
+但是，这样做有什么弊端呢？这段16行的代码一次做了全部的事情。如，监听页面事件，用户事件，
+网络事件，并且处理HTML模板。这就是我一年前写JavaScript代码时候做的事情。
+在这篇文章里面我将根据更容易测试、维护、重用和扩展的single responsibility原则，逐步重构
+这段代码。
+
 There are three things we want to achieve:
+
+这篇文章要完成三个目标：
 
 * We want to move as much as possible out of `$(document).ready`, so we
   can trigger the code ourselves — we only want to bootstrap the
@@ -69,11 +86,17 @@ There are three things we want to achieve:
   make the code more reusable and easier to test.
 * We want to break the coupling between the DOM and Ajax.
 
+* 稍后翻译
+* 使用更易测试和重用的single responsibility的开发原则
+* 解耦DOM和Ajax
+
 Separating DOM and Ajax 分离DOM和Ajax
 -----------------------
 
 We start with splitting Ajax and DOM from each other, and the first step
 is to create an `addStatus` function:
+
+我们先从分离Ajax和DOM开始，第一步，创建 `addStatus`方法
 
 ```diff
 +function addStatus(options) {
@@ -110,6 +133,9 @@ is to create an `addStatus` function:
 
 However, both within `data` and `success` we work with the DOM. We can
 break this coupling by sending these as arguments to `addStatus`:
+
+很明显`data`和`success`依旧和DOM耦合，我们可以通过向`addStatus`传递参数
+来解耦。
 
 ```diff
  function addStatus(options) {
